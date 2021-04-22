@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,800;1,800&display=swap');
+
+* {
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+body{
+    background: black;
+}
+
+header {
+    background: #fdcd01;
+    width: 100%;
+}
+
+/* 
+NAVBAR (MENU)
+*/
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: #fdcd01;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+nav > img {
+    width: 150px;
+}
+
+.nav_list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    list-style-type: none;
+}
+
+.nav_list li a {
+    display: inline-block;
+    color: #150400;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
+.toggle_button {
+    display: none;
+    background: transparent;
+    border: 0;
+    color: #150400;
+    cursor: pointer;
+    font-size: 40px;
+}
+
+.toggle_button:focus {
+    outline: none;
+}
+
+/* 
+HEADER (HELLO)
+*/
+.hello {
+    display: flex;
+    align-items: center;
+    margin-left: 7rem;
+    margin-right: 2rem;
+    overflow: hidden;
+}
+
+.hello_img {
+    text-align: center;
+    width: 50%;
+}
+
+.hello_img > img {
+    float: right;
+    max-width: 700px;
+}
+
+.hello_text {
+    width: 40%;
+}
+
+.hello_text > h1 {
+    font-family: 'Open-Sans', sans-serif;
+    font-weight: 800;
+    font-size:6rem;
+    line-height: 90px;
+}
+
+.hello_text > p {
+    font-family: 'Open-Sans', sans-serif;
+    font-weight: 600;
+    font-size:1rem;
+    color: #111111;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.hello_text > a {
+    background: #150400;
+    padding: 20px 50px;
+    border-radius: 50px;
+    outline: none;
+    text-decoration: none;
+    font-family: 'Open-Sans', sans-serif;
+    font-weight: 600;
+    color: rgb(238, 238, 238);
+}
+
+@media screen and (max-width: 770px) {
+    .logo {
+        width: 80px;
+    }
+    .nav_list {
+        display: none;
+        overflow: hidden;
+    }
+    .nav_list.show {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+    }
+    .toggle_button {
+        display: block;
+    }
+}
