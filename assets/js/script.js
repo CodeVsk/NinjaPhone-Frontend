@@ -7,3 +7,17 @@ toggleButton.addEventListener("click", ()=>{
     document.body.style.overflow = toggleValidate ? "hidden" : "initial"
     toggleValidate = !toggleValidate
 })
+
+function tabToggle(element,target){
+    tabProcess = document.getElementsByClassName("tab-process");
+    for (i = 0; i < tabProcess.length; i++) {
+        tabProcess[i].className = tabProcess[i].className.replace(" tab-on", "");
+    };
+    document.getElementById(target).classList.add('tab-on');
+
+    tabItem = document.getElementsByClassName("tab-item");
+    for (i = 0; i < tabItem.length; i++) {
+        tabItem[i].className = tabItem[i].className.replace(" card-on", "");
+    }
+    element.classList.add("card-on")
+}
