@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>NinjaPhone</title>
+        <link rel="stylesheet" href="./assets/css/style.css">
+        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+        
+    </head>
+    <body>
+        <header class="header_phone">
+            <nav>
+                <img src="./assets/images/logo.png" alt="">
+                <button class="toggle_button">
+                    <i class='bx bx-menu'></i>
+                </button>
+                <ul class="nav_list">
+                    <li class="nav_item"><a href="#">Localização</a></li>
+                    <li class="nav_item"><a href="#">Contato</a></li>
+                    <li class="nav_item"><a href="#">Login</a></li>
+                </ul>
+            </nav>
+            <div class="hello">
+                <div class="hello_text">
+                    <h1>NINJA</h1>
+                    <h1>REPAROS</h1>
+                    <p>
+                        É um facto estabelecido de que um leitor é distraído pelo conteúdo legível de 
+                        uma página quando analisa a sua mancha gráfica. 
+                        Logo, o uso de Lorem Ipsum leva a uma distribuição mais ou menos normal 
+                        de letras, ao contrário do uso de "Conteúdo aqui, conteúdo aqui", 
+                        tornando-o texto legível. Muitas ferramentas de publicação electrónica e editores 
+                        de páginas web usam actualmente o Lorem Ipsum.
+                    </p>
+                    <a onclick="stackToggle(this, 'phone_select')">Iniciar Processo</a>
+                </div>
+            </div>
+        </header>
+        <article class="phone_select stacks_off">
+            <h2 class="phone_title">SELECIONE O DISPOSITIVO</h2>
+            <div class="phone_line"></div>
+            <section class="phone_section">
+                <div class="phone_card">
+                    <img src="assets/images/phone-select.png" alt="">
+                    <label for="phone">Marca do Aparelho</label>
+                    <select name="phone" id="phone_brand">
+                        <option value="NONE">Selecione</option>
+                        <option value="IPHONE">Iphone</option>
+                        <option value="SAMSUNG">Samsung</option>
+                        <option value="MOTOROLA">Motorola</option>
+                        <option value="LG">Lg</option>
+                    </select>
+
+                    <label for="models">Modelo do Aparelho</label>
+                    <select name="models" id="phone_model">
+                        <option value="NONE">Selecione</option>
+                    </select>
+                    <button class="button_phone">PROSSEGUIR</button>
+                </div>
+            </section>
+        </article>
+        <article class="service_select stacks_off">
+            <h2 class="service_title">SELECIONE O SERVIÇO</h2>
+            <div class="service_line"></div>
+            <section class="service_section">
+                <div class="service_card" data="1">
+                    <img src="assets/images/find-phone.png" alt="">
+                    <p>Problema Desconhecido</p>
+                </div>
+                <div class="service_card" data="2">
+                    <img src="assets/images/back-phone.png" alt="">
+                    <p>Capa Traseira</p>
+                </div>
+                <div class="service_card" data="3">
+                    <img src="assets/images/loader-phone.png" alt="">
+                    <p>Carregador com Problema</p>
+                </div>
+                <div class="service_card" data="4">
+                    <img src="assets/images/water-phone.png" alt="">
+                    <p>Caiu na Água</p>
+                </div>
+                <div class="service_card" data="5">
+                    <img src="assets/images/battery-phone.png" alt="">
+                    <p>Bateria Viciada</p>
+                </div>
+                <div class="service_card" data="6">
+                    <img src="assets/images/screen-phone.png" alt="">
+                    <p>Tela Danificada</p>
+                </div>
+            </section>
+        </article>
+        <article class="cep_select stacks_off">
+            <h2 class="cep_title">SELECIONE O MÉTODO</h2>
+            <div class="cep_line"></div>
+            <section class="cep_section">
+                <h3>Insira seu Cep</h3>
+                <input class="cep" type="text" maxlength="8">
+                <div class="cep_card_container">
+                    <div class="service_card">
+                        <img src="assets/images/screen-phone.png" alt="">
+                        <p>Conserto Ninja</p>
+                    </div>
+                    <div class="service_card">
+                        <img src="assets/images/screen-phone.png" alt="">
+                        <p>Entrega em loja</p>
+                    </div>
+                </div>
+            </section>
+        </article>
+
+        <script src="./assets/js/script.js"></script>
+    </body>
+</html>
