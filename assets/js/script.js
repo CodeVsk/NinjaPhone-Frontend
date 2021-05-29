@@ -88,6 +88,50 @@ cepInput.addEventListener('input', ()=>{
         //.catch(err=>{
         //    console.log(err)
         //})
-
     }
 })
+
+const Months = {
+    "Janeiro":"01",
+    "Fevereiro":"02",
+    "Março":"03",
+    "Abril":"04",
+    "Maio":"05",
+    "Junho":"06",
+    "Julho":"07",
+    "Agosto":"08",
+    "Setembro":"09",
+    "Outubro":"10",
+    "Novembro":"11",
+    "Dezembro":"12"
+}
+
+
+const dateInput = document.querySelector('#date-input2')
+dateInput.addEventListener('change', ()=>{
+    let Hours = ["07:00","08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00"]
+    const hourElement = document.querySelector('#hour')
+    while (hourElement.options.length) {
+        hourElement.remove(0);
+    }
+    const date_array = dateInput.value.split(" ")
+    fetch('https://ninjaphoneapi.herokuapp.com/mostrarAgendamentos')
+    .then(res => res.json())
+    .then(data=>{
+        let hour_array = []
+        data.TodosAgendamentos.forEach((v)=>{
+            if(v.DiaAgendamento === date_array[1]+"-"+Months[date_array[2]]+"-"+date_array[3]){
+                hour_array.push(v.HorarioAgendamento)
+            }
+        })
+        hour_array.forEach((v)=>{
+            Hours.forEach((d,i)=>{
+                if(v === d){Hours.splice(i, 1);}
+            })
+        })
+        Hours.forEach((item) => {
+            hourElement.add(new Option(item));
+        });
+    })
+})
+//https://ninjaphone.herokuapp.com/mostrarAgendamentos
