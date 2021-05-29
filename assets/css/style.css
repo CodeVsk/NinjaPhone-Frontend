@@ -937,3 +937,59 @@ SELECT PHONE AND MODEL (CARDS)
     display: flex;
     flex-direction: row;
 }
+
+/*Register Maintence*/
+
+.register_service {
+    background: #ebebeb;
+    height: 100%;
+}
+
+.register_service > h2{
+    color: #0E0E0E;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    margin: 2rem;
+}
+.register_line{
+    height: 2px;
+    border-left: 100px solid #0E0E0E;
+    margin-bottom: 2rem;
+}
+
+.register_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    width: 500px;
+    max-width: 500px;
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.input_container {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Raleway', sans-serif;
+}
+
+.input_container > input{
+    background: #edf0ed;
+    border-radius: 10px;
+    outline: none;
+    padding: 10px;
+    width: 300px;
+    margin: 3px 0 10px 0;
+}
+
+.input_container > select {
+    background: #edf0ed;
+    border-radius: 10px;
+    outline: none;
+    padding: 8px;
+    width: 315px;
+    margin: 3px 0 10px 0;
+}

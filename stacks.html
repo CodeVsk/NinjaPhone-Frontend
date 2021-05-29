@@ -6,11 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>NinjaPhone</title>
         <link rel="stylesheet" href="./assets/css/style.css">
-        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-        
+        <link rel="stylesheet" href="./assets/css/datepicker.css" />
+        <script src="./assets/js/datepicker.js"></script>
     </head>
     <body>
-        <header class="header_phone">
+        <header class="header_phone stacks_off">
             <nav>
                 <img src="./assets/images/logo.png" alt="">
                 <button class="toggle_button">
@@ -109,7 +109,65 @@
                 </div>
             </section>
         </article>
-
+        <article class="register_service ">
+            <h2 class="register_title">INSIRA SEUS DADOS</h2>
+            <div class="register_line"></div>
+            <div class="register_container">
+                <section class="register_section">
+                    <div class="input_container">
+                        <label for="firstName" class="fieldInput-label">Primeiro nome*</label>
+                        <input id="firstName" placeholder="João">
+                    </div>
+                    <div class="input_container">
+                        <label for="lastName" class="fieldInput-label">Sobrenome*</label>
+                        <input id="lastName" placeholder="Gomes">
+                    </div>
+                    <div class="input_container">
+                        <label for="emailName" class="fieldInput-label">Email*</label>
+                        <input id="emailName" placeholder="atendimento@ninjaphone.com">
+                    </div>
+                    <div class="input_container">
+                        <label for="phoneNumber" class="fieldInput-label">Telefone*</label>
+                        <input id="phoneNumber" placeholder="(00)00000-0000">
+                    </div>
+                    <div class="input_container">
+                        <label for="date-input2" class="fieldInput-label">Data*</label>
+                        <input type="text" id="date-input2" autocomplete="off" />
+                    </div>
+                    <div class="input_container">
+                        <label for="hour" class="hour-select">Horário*</label>
+                        <select name="" id="hour">
+                            <option value="1">Selecione</option>
+                        </select>
+                    </div>
+                    <button class="button_phone">PROSSEGUIR</button>
+                </section>
+            </div>
+        </article>
         <script src="./assets/js/script.js"></script>
+        <script>
+            let dates=[12,13,14,15,16,17,18,19,20]
+            fetch('https://ninjaphoneapi.herokuapp.com/mostrarAgendamentos')
+            .then(res => res.json())
+            .then(data=>{
+                console.log(data.TodosAgendamentos)
+            })
+            const d2 = new Datepicker(document.getElementById("date-input2"), {
+            first_date: new Date(),
+            enabled_days: (d) => {
+                return d.getDate()
+            },
+            format: (d) => {
+            return [
+                    WEEKDAYS_SHORT[d.getDay()],
+                    d.getDate(),
+                    MONTHS_SHORT[d.getMonth()],
+                    d.getFullYear(),
+                ].join(" ");
+            },
+            first_day_of_week: "sun",
+            initial_date: new Date(),
+            });
+        </script>
     </body>
 </html>
