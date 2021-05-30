@@ -116,42 +116,37 @@
                 <section class="register_section">
                     <div class="input_container">
                         <label for="firstName" class="fieldInput-label">Primeiro nome*</label>
-                        <input id="firstName" placeholder="João">
+                        <input id="firstName" placeholder="João" required>
                     </div>
                     <div class="input_container">
                         <label for="lastName" class="fieldInput-label">Sobrenome*</label>
-                        <input id="lastName" placeholder="Gomes">
+                        <input id="lastName" placeholder="Gomes" required>
                     </div>
                     <div class="input_container">
                         <label for="emailName" class="fieldInput-label">Email*</label>
-                        <input id="emailName" placeholder="atendimento@ninjaphone.com">
+                        <input id="emailName" placeholder="atendimento@ninjaphone.com" required>
                     </div>
                     <div class="input_container">
-                        <label for="phoneNumber" class="fieldInput-label">Telefone*</label>
-                        <input id="phoneNumber" placeholder="(00)00000-0000">
+                        <label for="phoneNumber" onkeypress="phoneMask()" class="fieldInput-label">Telefone*</label>
+                        <input id="phoneNumber" placeholder="(00)00000-0000" required type="text" id="phoneNumber" name="phoneNumber" onkeypress="mask(this, phoneMask);" onblur="mask(this, phoneMask);">
                     </div>
                     <div class="input_container">
                         <label for="date-input2" class="fieldInput-label">Data*</label>
                         <input type="text" id="date-input2" autocomplete="off" />
                     </div>
                     <div class="input_container">
-                        <label for="hour" class="hour-select">Horário*</label>
+                        <label for="hour" id="hourSelect" class="hour-select">Horário*</label>
                         <select name="" id="hour">
                             <option value="1">Selecione</option>
                         </select>
                     </div>
-                    <button class="button_phone">PROSSEGUIR</button>
+                    <button class="button_hour">PROSSEGUIR</button>
                 </section>
             </div>
         </article>
         <script src="./assets/js/script.js"></script>
         <script>
             let dates=[12,13,14,15,16,17,18,19,20]
-            fetch('https://ninjaphoneapi.herokuapp.com/mostrarAgendamentos')
-            .then(res => res.json())
-            .then(data=>{
-                console.log(data.TodosAgendamentos)
-            })
             const d2 = new Datepicker(document.getElementById("date-input2"), {
             first_date: new Date(),
             enabled_days: (d) => {
@@ -165,7 +160,7 @@
                     d.getFullYear(),
                 ].join(" ");
             },
-            first_day_of_week: "sun",
+            first_day_of_week: "seg",
             initial_date: new Date(),
             });
         </script>
