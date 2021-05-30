@@ -180,14 +180,13 @@ document.querySelector('.button_hour').addEventListener("click", ()=>{
                                 })
                             })
                             .then(res=>{
-                                if(res.status){
+                                if(res.status === 200){
                                     const cardSelect = document.getElementsByClassName("card_success_container");
                                     cardSelect[0].className =  cardSelect[0].className.replace(" stacks_off", "");
                                     document.getElementsByClassName("register_service")[0].classList.add("stacks_off")
                                 }else{
                                     window.location.href = "index.html"
                                 }
-                                
                             })
                         }else{alert("Selecione o horário para agendamento")}
                     }else{alert("Selecione uma data")}
