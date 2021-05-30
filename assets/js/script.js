@@ -48,8 +48,8 @@ list = {
 }
 
 const phoneBrand = document.querySelector('#phone_brand')
+const selectElement = document.getElementById('phone_model');
 phoneBrand.addEventListener("change", ()=>{
-    const selectElement = document.getElementById('phone_model');
     while (selectElement.options.length) {
         selectElement.remove(0);
     }
@@ -69,13 +69,18 @@ document.querySelector('.button_phone').addEventListener("click", ()=>{
     }
 })
 
-const cardService = document.querySelector('.service_card')
-cardService.addEventListener("click", ()=>{
-    const cepSelect = document.getElementsByClassName("cep_select");
-    cepSelect[0].className =  cepSelect[0].className.replace(" stacks_off", "");
+function selectService(e){
+    localStorage.setItem('servicePhone', e.getAttribute("data"));
+    const registerSelect = document.getElementsByClassName("cep_select");
+    registerSelect[0].className =  registerSelect[0].className.replace(" stacks_off", "");
     document.getElementsByClassName("service_select")[0].classList.add("stacks_off")
-})
+}
 
+function selectRepair(e){
+    const cepSelect = document.getElementsByClassName("register_service");
+    cepSelect[0].className =  cepSelect[0].className.replace(" stacks_off", "");
+    document.getElementsByClassName("cep_select")[0].classList.add("stacks_off")
+}
 
 const cepInput = document.querySelector('.cep')
 cepInput.addEventListener('input', ()=>{
@@ -134,6 +139,14 @@ dateInput.addEventListener('change' , ()=>{
     })
 })
 
+const repair = {
+    1:"Problema Desconhecido",
+    2:"Capa Traseira",
+    3:"Carregador com Problema",
+    4:"Caiu na Água",
+    5:"Bateria Viciada",
+    6:"Tela Danificada",
+}
 const firstName_ = document.querySelector('#firstName');
 const lastName_ = document.querySelector('#lastName');
 const emailName_ = document.querySelector('#emailName');
@@ -161,6 +174,9 @@ document.querySelector('.button_hour').addEventListener("click", ()=>{
                                     "SegundoNomeCliente":lastName_.value,
                                     "Email":emailName_.value,
                                     "Celular":telNumber_.value,
+                                    "ServiçoAFazer":repair[localStorage.getItem("servicePhone")],
+                                    "ModeloAparelho":selectElement.children[selectElement.selectedIndex].textContent,
+                                    "MarcaAparelho":phoneBrand.children[phoneBrand.selectedIndex].textContent,
                                 })
                             })
                             .then(res=>{res.status})
@@ -172,14 +188,6 @@ document.querySelector('.button_hour').addEventListener("click", ()=>{
     }else{alert("Insira seu primeiro nome")}
 })
 
-/*
-firstName
-lastName
-emailName
-phoneNumber
-date-input2
-hourSelect
-*/
 
 function mask(o, f) {
     setTimeout(function() {
