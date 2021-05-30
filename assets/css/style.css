@@ -819,7 +819,7 @@ SELECT PHONE AND MODEL (CARDS)
     flex-wrap: wrap;
 }
 
-.button_phone, .button_hour {
+.button_phone, .button_hour, .button_success {
     cursor: pointer;
     width: 100%;
     max-width: 200px;
@@ -834,7 +834,7 @@ SELECT PHONE AND MODEL (CARDS)
     transition: 0.5s;
 }
 
-.button_phone:hover, .button_hour:hover {
+.button_phone:hover, .button_hour:hover, .button_success:hover {
     background: #436dce;
 }
 
@@ -992,4 +992,49 @@ SELECT PHONE AND MODEL (CARDS)
     padding: 8px;
     width: 315px;
     margin: 3px 0 10px 0;
+}
+
+
+
+.card_success_container {
+    background: #150400;
+    height: 100%;
+}
+
+.card_success {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.808);
+    max-width: 520px;
+    border-radius: 15px;
+}
+.card_success_1{
+    background: #4a75ff;
+    border-radius: 15px 15px 0 0;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+}
+.card_success_1 > img{
+    width: 100px;
+}
+.card_success_2{
+    background: #fff;
+    border-radius: 0 0 15px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+}
+
+.card_success_2 > h1{
+    color: #0E0E0E;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    margin: 1rem;
+}
+
+.card_success_2 > p{
+    color: #0E0E0E;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    margin: 1rem;
 }
