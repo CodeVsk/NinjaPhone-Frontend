@@ -819,7 +819,7 @@ SELECT PHONE AND MODEL (CARDS)
     flex-wrap: wrap;
 }
 
-.button_phone {
+.button_phone, .button_hour {
     cursor: pointer;
     width: 100%;
     max-width: 200px;
@@ -834,7 +834,7 @@ SELECT PHONE AND MODEL (CARDS)
     transition: 0.5s;
 }
 
-.button_phone:hover {
+.button_phone:hover, .button_hour:hover {
     background: #436dce;
 }
 
