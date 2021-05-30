@@ -106,10 +106,9 @@ const Months = {
     "Dezembro":"12"
 }
 
-
 const dateInput = document.querySelector('#date-input2')
-dateInput.addEventListener('change', ()=>{
-    let Hours = ["07:00","08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00"]
+dateInput.addEventListener('change' , ()=>{
+    let Hours = ["Selecione","07:00","08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00"]
     const hourElement = document.querySelector('#hour')
     while (hourElement.options.length) {
         hourElement.remove(0);
@@ -134,4 +133,75 @@ dateInput.addEventListener('change', ()=>{
         });
     })
 })
+
+const firstName_ = document.querySelector('#firstName');
+const lastName_ = document.querySelector('#lastName');
+const emailName_ = document.querySelector('#emailName');
+const telNumber_ = document.querySelector('#phoneNumber');
+const dateInput_ = document.querySelector('#date-input2');
+const hourSelect_ = document.querySelector('#hour');
+document.querySelector('.button_hour').addEventListener("click", ()=>{
+    const date_array = dateInput.value.split(" ")
+    if(firstName_.value.length > 0){
+        if(lastName_.value.length > 0){
+            if(emailName_.value.length > 0){
+                if(telNumber_.value.length > 0){
+                    if(dateInput_.value.length > 0){
+                        if(hourSelect_.selectedIndex > 0){
+                            fetch('https://ninjaphoneapi.herokuapp.com/auth/cadastroAgendamento',{
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                method: "POST",
+                                body: JSON.stringify({
+                                    "DiaAgendamento":date_array[1]+"-"+Months[date_array[2]]+"-"+date_array[3],
+                                    "HorarioAgendamento":hourSelect_.children[hourSelect_.selectedIndex].textContent,
+                                    "PrimeiroNomeCliente":firstName_.value,
+                                    "SegundoNomeCliente":lastName_.value,
+                                    "Email":emailName_.value,
+                                    "Celular":telNumber_.value,
+                                })
+                            })
+                            .then(res=>{res.status})
+                        }else{alert("Selecione o horário para agendamento")}
+                    }else{alert("Selecione uma data")}
+                }else{alert("Insira seu número de telefone")}
+            }else{alert("Insira seu email")}
+        }else{alert("Insira seu sobrenome")}
+    }else{alert("Insira seu primeiro nome")}
+})
+
+/*
+firstName
+lastName
+emailName
+phoneNumber
+date-input2
+hourSelect
+*/
+
+function mask(o, f) {
+    setTimeout(function() {
+    let v = phoneMask(o.value);
+        if (v != o.value) {
+            o.value = v;
+        }
+    }, 1);
+}
+
+function phoneMask(v) {
+    let r = v.replace(/\D/g, "");
+    r = r.replace(/^0/, "");
+    if (r.length > 11) {
+        r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+    } else if (r.length > 7) {
+        r = r.replace(/^(\d\d)(\d{5})(\d{0,4}).*/, "($1) $2-$3");
+    } else if (r.length > 2) {
+        r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+    } else if (v.trim() !== "") {
+        r = r.replace(/^(\d*)/, "($1");
+    }
+    return r;
+}
 //https://ninjaphone.herokuapp.com/mostrarAgendamentos
