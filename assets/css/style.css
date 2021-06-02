@@ -1038,3 +1038,26 @@ SELECT PHONE AND MODEL (CARDS)
     font-weight: 600;
     margin: 1rem;
 }
+
+/* TECHNICIAN FORM*/
+
+.technician_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.technician_form{
+    width: 100%;
+    max-width: 500px;
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.technician_form > h6, .technician_form > div > h6{
+    margin-top: 10px;
+    margin-bottom: 0;
+}

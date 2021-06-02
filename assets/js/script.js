@@ -177,6 +177,8 @@ document.querySelector('.button_hour').addEventListener("click", ()=>{
                                     "ServiçoAFazer":repair[localStorage.getItem("servicePhone")],
                                     "ModeloAparelho":selectElement.children[selectElement.selectedIndex].textContent,
                                     "MarcaAparelho":phoneBrand.children[phoneBrand.selectedIndex].textContent,
+                                    "TipoAtendimento": "Loja",
+                                    "IdTecnico": "0"
                                 })
                             })
                             .then(res=>{
