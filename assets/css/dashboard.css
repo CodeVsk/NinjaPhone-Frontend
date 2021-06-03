@@ -10875,7 +10875,7 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   }
 }
 
-.select_method {
+.select_method, .select_status {
   outline: none;
   border: 1px solid #000;
   width:100%;

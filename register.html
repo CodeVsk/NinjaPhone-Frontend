@@ -12,45 +12,66 @@
     </head>
     <body>
         <div class="technician_container">
-            <form class="technician_form" action="" method="post">
+            <div class="technician_form">
                 <h6><label for="formFile" class="form-label">Nome Completo</label></h6>
-                <input id="nameTechnician" class="form-control" type="text" placeholder="" aria-label="default input example">
+                <input id="nameTechnician" class="form-control" type="text" placeholder="" aria-label="default input example" required>
                 
                 <h6><label for="formFile" class="form-label">Email</label></h6>
-                <input id="emailTechnician" class="form-control" type="text" placeholder="" aria-label="default input example">
+                <input id="emailTechnician" class="form-control" type="text" placeholder="" aria-label="default input example" required>
                 
                 <h6><label for="formFile" class="form-label">Celular</label></h6>
-                <input id="telTechnician" class="form-control" type="text" placeholder="" aria-label="default input example">
+                <input id="telTechnician" class="form-control" placeholder="" aria-label="default input example" required type="text" name="phoneNumber" onkeypress="mask(this, phoneMask);" onblur="mask(this, phoneMask);" placeholder="(00)00000-0000">
                 
                 <h6><label for="formFile" class="form-label">Cpf</label></h6>
-                <input id="cpfTechnician" class="form-control" type="text" placeholder="" aria-label="default input example">
+                <input id="cpfTechnician" class="form-control" type="text" placeholder="" aria-label="default input example" required>
                 
                 <h6><label for="formFile" class="form-label">Cep</label></h6>
-                <input id="cepTechnician" class="form-control" type="text" placeholder="" aria-label="default input example">
+                <input maxlength="8" id="cepTechnician" class="form-control" type="text" placeholder="" aria-label="default input example" required>
                 
                 <h6><label for="formFile" class="form-label">Estado</label></h6>
-                <input id="stateTechnician" class="form-control" type="text" placeholder="" aria-label="default input example">
+                <input id="stateTechnician" class="form-control" type="text" placeholder="" aria-label="default input example" required>
                 
                 <h6><label for="formFile" class="form-label">Endereço</label></h6>
-                <input id="addressTechnician" class="form-control" type="text" placeholder="" aria-label="default input example">
+                <input id="addressTechnician" class="form-control" type="text" placeholder="" aria-label="default input example" required>
                 
                 <h6><label for="formFile" class="form-label">Senha</label></h6>
-                <input id="passwordTechnician" class="form-control" type="text" placeholder="" aria-label="default input example">
+                <input id="passwordTechnician" type="password" autocomplete="false" class="form-control" type="text" placeholder="" aria-label="default input example" required>
 
                 <div class="mb-3">
                     <h6><label for="formFile" class="form-label">Antecedentes Criminais</label></h6>
-                    <input class="form-control" type="file" id="formFile">
+                    <div id="formFile" class="dropzone">
+                        <div class="info"></div>
+                    </div>
                 </div>
+
                 <div class="d-grid gap-2">
-                    <button class="btn btn-primary" type="button">Enviar</button>
+                    <button class="btn btn-primary btn_register" type="button">Enviar</button>
                 </div>
-            </form>
+            </div>
         </div>
-        <!-- Bootstrap core JS-->
+        <article class="card_success_container stacks_off">
+            <div class="card_success">
+                <div class="card_success_1">
+                    <img src="./assets/images/success.png" alt="Success NinjaPhone">
+                </div>
+                <div class="card_success_2">
+                    <h1>CADASTRADO COM SUCESSO</h1>
+                    <p>AGUARDE SEU CADASTRO SER APROVADO</p>
+                    <button onclick="window.location.href='index.html'" class="button_success">Concluir</button>
+                </div>
+            </div>
+        </article>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#cpfTechnician").mask('000.000.000-00', {reverse: true});
+            });
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="assets/js/dashboard.js"></script>
         <script src="https://kit.fontawesome.com/0f1c94ac33.js" crossorigin="anonymous"></script>
-        <script src="./assets/js/script.js"></script>
+        <script src="./assets/js/user.js"></script>
+        <script type="text/javascript" src="./assets/js/imgur.js"></script>
+        <script type="text/javascript" src="./assets/js/upload.js"></script>
     </body>
 </html>

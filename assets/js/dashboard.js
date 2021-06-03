@@ -78,7 +78,6 @@ function informationButton(e){
 }
 
 function removeButton(e){
-    console.log(e.getAttribute("data"))
     fetch("https://ninjaphoneapi.herokuapp.com/RemoverAgendamentos/"+e.getAttribute("data"), {method: 'DELETE'})
     .then(res=>res.status)
     fetch("https://ninjaphoneapi.herokuapp.com/mostrarAgendamentos")
@@ -117,3 +116,70 @@ function removeButton(e){
         });
     })
 }
+
+
+//button_scheduling
+const technicianButton = document.querySelector(".button_technician");
+technicianButton.addEventListener("click",()=>{
+    const tabTechnician = document.querySelector("#techniciansTab");
+    tabTechnician.className =  tabTechnician.className.replace(" container-off", "");
+    document.querySelector("#hoursTab").classList.add("container-off")
+})
+
+const tabHours = document.querySelector(".button_scheduling");
+tabHours.addEventListener("click",()=>{
+    const tabHours = document.querySelector("#hoursTab");
+    tabHours.className =  tabHours.className.replace(" container-off", "");
+    document.querySelector("#techniciansTab").classList.add("container-off")
+})
+
+
+const hourOption = document.querySelector(".select_status");
+hourOption.addEventListener("change",()=>{
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnicos")
+    .then(res=>res.json())
+    .then(data=>{
+        document.querySelector('#schedulesList').innerHTML = ''
+        data.TodosTecnicos.forEach(e => {
+            if(hourOption.value === "2" && e.Status === "Pendente"){
+                document.querySelector('#technicianList').insertAdjacentHTML('afterbegin',`
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">${e.Nome}</div>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button type="button" class="btn btn-outline-primary" data="${e.id_}">Visualizar</button>
+                        <button type="button" class="btn btn-outline-primary" data="${e.id_}">Aprovar</button>
+                        <button type="button" class="btn btn-outline-primary" data="${e.id_}">Recusar</button>
+                    </div>
+                </li>
+                `)
+            }
+        })
+    })
+})
+/*
+const hourOption = document.querySelector(".select_day");
+hourOption.addEventListener("change",()=>{
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarAgendamentos")
+    .then(res=>res.json())
+    .then(data=>{
+        document.querySelector('#schedulesList').innerHTML = ''
+        data.TodosAgendamentos.forEach(e => {
+            if(selectOption.value === "1" && e.TipoAtendimento === "Loja"){
+                document.querySelector('#schedulesList').insertAdjacentHTML('afterbegin', `
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">${e.PrimeiroNomeCliente } ${e.SegundoNomeCliente}  <span class="badge bg-primary rounded-pill">${e.HorarioAgendamento}</span></div>
+                            ${e.ModeloAparelho} (${e.ServiçoAFazer})
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <button onclick="informationButton(this)" data="${e._id}" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#informationModal" data="${e._id}">Informações</button>
+                            <button onclick="removeButton(this)" data="${e._id}" type="button" class="btn btn-outline-primary">Remover</button>
+                        </div>
+                    </li>
+                `);
+            }
+        });
+    })
+})*/
