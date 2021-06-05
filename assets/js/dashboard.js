@@ -139,8 +139,21 @@ hourOption.addEventListener("change",()=>{
     fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnicos")
     .then(res=>res.json())
     .then(data=>{
-        document.querySelector('#schedulesList').innerHTML = ''
+        document.querySelector('#technicianList').innerHTML = ''
         data.TodosTecnicos.forEach(e => {
+            if(hourOption.value === "1" && e.Status === "Aprovado"){
+                document.querySelector('#technicianList').insertAdjacentHTML('afterbegin',`
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">${e.Nome}</div>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button onclick="informationTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}" data-bs-toggle="modal" data-bs-target="#informationTechnician">Visualizar</button>
+                        <button onclick="removeTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}">Remover</button>
+                    </div>
+                </li>
+                `)
+            }
             if(hourOption.value === "2" && e.Status === "Pendente"){
                 document.querySelector('#technicianList').insertAdjacentHTML('afterbegin',`
                 <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -148,9 +161,9 @@ hourOption.addEventListener("change",()=>{
                         <div class="fw-bold">${e.Nome}</div>
                     </div>
                     <div class="btn-group" role="group" aria-label="Basic outlined example">
-                        <button type="button" class="btn btn-outline-primary" data="${e.id_}">Visualizar</button>
-                        <button type="button" class="btn btn-outline-primary" data="${e.id_}">Aprovar</button>
-                        <button type="button" class="btn btn-outline-primary" data="${e.id_}">Recusar</button>
+                        <button onclick="informationTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}" data-bs-toggle="modal" data-bs-target="#informationTechnician">Visualizar</button>
+                        <button onclick="acceptTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}">Aprovar</button>
+                        <button onclick="removeTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}">Recusar</button>
                     </div>
                 </li>
                 `)
@@ -158,6 +171,113 @@ hourOption.addEventListener("change",()=>{
         })
     })
 })
+
+function informationTechnician(e){
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+e.getAttribute("data"))
+    .then(res=>res.json())
+    .then(data=>{
+        document.querySelector("#nameTechnician").innerHTML = data.TodosTecnicos.Nome
+        document.querySelector("#emailTechnician").innerHTML = data.TodosTecnicos.Email
+        document.querySelector("#cpfTechnician").innerHTML = data.TodosTecnicos.Cpf
+        document.querySelector("#addressTechnician").innerHTML = data.TodosTecnicos.Endereco
+        document.querySelector("#cityTechnician").innerHTML = data.TodosTecnicos.Cidade
+        document.querySelector("#cepTechnician").innerHTML = data.TodosTecnicos.Cep
+        document.querySelector("#criminalReport").setAttribute('src', data.TodosTecnicos.AntecendenteCriminal)
+    })
+}
+
+function acceptTechnician(e){
+    fetch("https://ninjaphoneapi.herokuapp.com/AtualizarStatus/"+e.getAttribute("data"),{
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: "PUT",
+        body: JSON.stringify({
+            "Status":"Aprovado"
+        })
+    })
+    .then(res => {
+        if(res.status === 200){
+            fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnicos")
+            .then(res=>res.json())
+            .then(data=>{
+                document.querySelector('#technicianList').innerHTML = ''
+                data.TodosTecnicos.forEach(e => {
+                    if(hourOption.value === "1" && e.Status === "Aprovado"){
+                        document.querySelector('#technicianList').insertAdjacentHTML('afterbegin',`
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">${e.Nome}</div>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                <button onclick="informationTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}" data-bs-toggle="modal" data-bs-target="#informationTechnician">Visualizar</button>
+                                <button onclick="removeTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}">Remover</button>
+                            </div>
+                        </li>
+                        `)
+                    }
+                    if(hourOption.value === "2" && e.Status === "Pendente"){
+                        document.querySelector('#technicianList').insertAdjacentHTML('afterbegin',`
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">${e.Nome}</div>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                <button onclick="informationTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}" data-bs-toggle="modal" data-bs-target="#informationTechnician">Visualizar</button>
+                                <button onclick="acceptTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}">Aprovar</button>
+                                <button onclick="removeTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}">Recusar</button>
+                            </div>
+                        </li>
+                        `)
+                    }
+                })
+            })
+        }
+    })
+}
+
+function removeTechnician(e){
+    fetch("https://ninjaphoneapi.herokuapp.com/RemoverTecnico/"+e.getAttribute("data"), {method: 'DELETE'})
+    .then(res=>{
+        if(res.status === 200){
+            fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnicos")
+            .then(res=>res.json())
+            .then(data=>{
+                document.querySelector('#technicianList').innerHTML = ''
+                data.TodosTecnicos.forEach(e => {
+                    if(hourOption.value === "1" && e.Status === "Aprovado"){
+                        document.querySelector('#technicianList').insertAdjacentHTML('afterbegin',`
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">${e.Nome}</div>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                <button onclick="informationTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}" data-bs-toggle="modal" data-bs-target="#informationTechnician">Visualizar</button>
+                                <button onclick="removeTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}">Remover</button>
+                            </div>
+                        </li>
+                        `)
+                    }
+                    if(hourOption.value === "2" && e.Status === "Pendente"){
+                        document.querySelector('#technicianList').insertAdjacentHTML('afterbegin',`
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">${e.Nome}</div>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                <button onclick="informationTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}" data-bs-toggle="modal" data-bs-target="#informationTechnician">Visualizar</button>
+                                <button onclick="acceptTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}">Aprovar</button>
+                                <button onclick="removeTechnician(this)" type="button" class="btn btn-outline-primary" data="${e._id}">Recusar</button>
+                            </div>
+                        </li>
+                        `)
+                    }
+                })
+            })
+        }
+    })
+}
+
 /*
 const hourOption = document.querySelector(".select_day");
 hourOption.addEventListener("change",()=>{
