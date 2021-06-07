@@ -1,27 +1,17 @@
+const technicianButton = document.querySelector(".button_technician");
+technicianButton.addEventListener("click",()=>{
+    const tabTechnician = document.querySelector("#techniciansTab");
+    tabTechnician.className =  tabTechnician.className.replace(" container-off", "");
+    document.querySelector("#hoursTab").classList.add("container-off")
+})
 
-/*const monthOption = document.querySelector(".select_month");
-monthOption.addEventListener("change",()=>{
-    document.querySelector('#daysTechnician').innerHTML = ''
-    let date = new Date(new Date().getFullYear(), monthOption.options[monthOption.selectedIndex].getAttribute("value"), 0);
-    let format = new Date().toString().split(' ')
-    const days = ["Domingo","Segunda-Feira","Terça-Feira","Quarta-Feira","Quinta-Feira","Sexta-Feira","Sabádo"];
-    //return days[date.getDay()]
-    console.log(date.getDate())
-    for(i=date.getDate(); i >=1  ; i--){
-        let d = new Date(new Date().getFullYear(), monthOption.options[monthOption.selectedIndex].getAttribute("value")-1, i);
-        document.querySelector('#daysTechnician').insertAdjacentHTML('afterbegin',`
-        <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="ms-2 me-auto">
-                <div class="fw-bold">${days[d.getDay()]} <span class="badge bg-dark">${d.toLocaleDateString('pt-br', {day : 'numeric',month : 'short',year : 'numeric'})}</span></div>
-                <span class="badge bg-primary">11:00</span>
-            </div>
-            <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#insertHour" data="${format[1]+"/"+format[2]+"/"+format[3]}">Disponibilidade</button>
-            </div>
-        </li>
-        `)
-    }
-})*/
+const tabHours = document.querySelector(".button_scheduling");
+tabHours.addEventListener("click",()=>{
+    const tabHours = document.querySelector("#hoursTab");
+    tabHours.className =  tabHours.className.replace(" container-off", "");
+    document.querySelector("#techniciansTab").classList.add("container-off")
+})
+
 
 function synchronyzeMonth(){
     const month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
@@ -53,26 +43,27 @@ function reqDiary(){
     .then(res=>res.json())
     .then(data=>{
         let json = data.TodosTecnicos
-        //console.log(month[date.getMonth()]+date.getFullYear())
         if(json.Dia === (month[date.getMonth()]+date.getFullYear()) && json.Dia !== undefined){
-            for(let i in JSON.parse(json.Horas) ){
-                //console.log(days[new Date(date.getFullYear(), date.getMonth(), i).getDay()])
-                document.querySelector('#daysTechnician').insertAdjacentHTML('afterbegin',`
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto" id="hourCard">
-                        <div class="fw-bold">${days[new Date(date.getFullYear(), date.getMonth(), i).getDay()]} <span class="badge bg-dark">${i+"/"+(date.getMonth()+1)}</span></div>
-                        
-                    </div>
-                    <div class="btn-group" role="group" aria-label="Basic outlined example">
-                        <button onclick="listHours(this)" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#insertHour" data="${i}">Disponibilidade</button>
-                    </div>
-                </li>
-                `)
+            for(let i=Object.keys(JSON.parse(json.Horas)).length; i > 0; i--){
+                if(i >= date.getDate()){
+                    document.querySelector('#daysTechnician').insertAdjacentHTML('afterbegin',`
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto" id="hourCard">
+                            <div class="fw-bold">${days[new Date(date.getFullYear(), date.getMonth(), i).getDay()]} <span class="badge bg-dark">${i+"/"+(date.getMonth()+1)}</span></div>
+                            
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <button onclick="listHours(this)" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#insertHour" data="${i}">Disponibilidade</button>
+                        </div>
+                    </li>
+                    `)
+                    //const j = JSON.parse(json.Horas[i])
+                    //for(let i in j ){
+                    //    document.querySelector('#hourCard').insertAdjacentHTML('afterbegin',`<span class="badge bg-primary">${j[1]}</span>`)
+                    //}
+                }
             };
-            //const j = JSON.parse(json.Horas)
-            //for(let i in j ){
-            //    document.querySelector('#hourCard').insertAdjacentHTML('afterbegin',`<span class="badge bg-primary">${j[]}</span>`)
-            //}
+            
         }else{
             document.querySelector('#daysTechnician').insertAdjacentHTML('afterbegin',`
             <div class="d-grid gap-2">

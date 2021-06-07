@@ -70,7 +70,6 @@ function informationButton(e){
     fetch("https://ninjaphoneapi.herokuapp.com/mostrarAgendamentos/"+e.getAttribute("data"))
     .then(res=>res.json())
     .then(data=>{
-        console.log(data.ParamsSelecionados)
         document.querySelector("#modelPhone").innerHTML = data.ParamsSelecionados.ModeloAparelho
         document.querySelector("#damageService").innerHTML = data.ParamsSelecionados.ServiçoAFazer
         document.querySelector("#hourService").innerHTML = data.ParamsSelecionados.DiaAgendamento + "("+data.ParamsSelecionados.HorarioAgendamento+")"

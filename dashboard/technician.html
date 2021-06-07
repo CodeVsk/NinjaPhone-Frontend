@@ -16,8 +16,8 @@
             <div class="border-end bg-white" id="sidebar-wrapper">
                 <div class="sidebar-heading border-bottom bg-light">Dashboard</div>
                 <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Agendamentos</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Horários</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 button_scheduling" href="#!">Agendamentos</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 button_technician" href="#!">Horários</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Deslogar</a>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                     </div>
                 </nav>
                 <!-- Page content-->
-                <div class="container-fluid container-off">
+                <div id="hoursTab" class="container-fluid container-off">
                     <h1 class="mt-4">Agendamentos</h1>
                     <select class="select_day">
                         <option value="0">Selecione</option>
@@ -76,7 +76,7 @@
                     </div>
                 </div>
 
-                <div class="container-fluid">
+                <div id="techniciansTab" class="container-fluid">
                     <h1 class="mt-4">Disponibilidade</h1> 
                     <ol class="list-group list-group-numbered" id="daysTechnician">
                         
