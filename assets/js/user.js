@@ -33,34 +33,40 @@ document.querySelector('.btn_register').addEventListener("click", ()=>{
                             if(addressInput.value.length > 0){
                                 if(passwordInput.value.length >= 6){
                                     if(imageLink){
-                                        fetch("https://ninjaphoneapi.herokuapp.com/auth/cadastroTecnicos",{
-                                            headers: {
-                                                'Content-Type': 'application/json'
-                                            },
-                                            method: "POST",
-                                            body: JSON.stringify({
-                                                "Nome": nameInput.value,
-                                                "Email": emailInput.value,
-                                                "Celular": telInput.value,
-                                                "Cpf": cpflInput.value,
-                                                "Endereco": addressInput.value,
-                                                "Cidade": stateInput.value,
-                                                "Cep": cepInput.value,
-                                                "Estado": stateInput.value,
-                                                "AntecendenteCriminal": imageLink.getAttribute('data'),
-                                                "Senha":passwordInput.value,
-                                                "Status":"Pendente",
-                                                "Horas":"",
-                                                "Dia":"",
+                                        fetch('https://ninjaphoneapi.herokuapp.com/retornaLatLong/'+cepInput.value)
+                                        .then(result=>result.json())
+                                        .then(data=>{
+                                            fetch("https://ninjaphoneapi.herokuapp.com/auth/cadastroTecnicos",{
+                                                headers: {
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                method: "POST",
+                                                body: JSON.stringify({
+                                                    "Nome": nameInput.value,
+                                                    "Email": emailInput.value,
+                                                    "Celular": telInput.value,
+                                                    "Cpf": cpflInput.value,
+                                                    "Endereco": addressInput.value,
+                                                    "Cidade": stateInput.value,
+                                                    "Cep": cepInput.value,
+                                                    "Estado": stateInput.value,
+                                                    "AntecendenteCriminal": imageLink.getAttribute('data'),
+                                                    "Senha":passwordInput.value,
+                                                    "Status":"Pendente",
+                                                    "Horas":"",
+                                                    "Dia":"",
+                                                    "Localidade":data.json.latitude+","+data.json.longitude
+                                                })
+                                            })
+                                            .then(res => {
+                                                if(res.status === 200){
+                                                    const cardSelect = document.querySelector(".card_success_container");
+                                                    cardSelect.className =  cardSelect.className.replace(" stacks_off", "");
+                                                    document.querySelector(".technician_container").classList.add("stacks_off")
+                                                }
                                             })
                                         })
-                                        .then(res => {
-                                            if(res.status === 200){
-                                                const cardSelect = document.getElementsByClassName("card_success_container");
-                                                cardSelect[0].className =  cardSelect[0].className.replace(" stacks_off", "");
-                                                document.getElementsByClassName("technician_container")[0].classList.add("stacks_off")
-                                            }
-                                        })
+                                        .catch(err=>{console.log(err)})
                                     }
                                 }
                             }

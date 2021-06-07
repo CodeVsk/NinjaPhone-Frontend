@@ -77,24 +77,98 @@ function selectService(e){
 }
 
 function selectRepair(e){
-    const cepSelect = document.getElementsByClassName("register_service");
-    cepSelect[0].className =  cepSelect[0].className.replace(" stacks_off", "");
-    document.getElementsByClassName("cep_select")[0].classList.add("stacks_off")
+    if(e.className != "cep_off"){
+        if(e.id == "cardStore"){
+            const cepSelect = document.getElementsByClassName("register_service");
+            cepSelect[0].className =  cepSelect[0].className.replace(" stacks_off", "");
+            document.getElementsByClassName("cep_select")[0].classList.add("stacks_off")
+        }else{
+            const cepSelect = document.getElementsByClassName("register_ninja");
+            cepSelect[0].className =  cepSelect[0].className.replace(" stacks_off", "");
+            document.getElementsByClassName("cep_select")[0].classList.add("stacks_off")
+        }
+    }
+}
+
+
+function getDistanceInKm(position1, position2) {
+    "use strict";
+    let deg2rad = function (deg) { return deg * (Math.PI / 180); },
+        R = 6371,
+        dLat = deg2rad(position2.lat - position1.lat),
+        dLng = deg2rad(position2.lng - position1.lng),
+        a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+            + Math.cos(deg2rad(position1.lat))
+            * Math.cos(deg2rad(position1.lat))
+            * Math.sin(dLng / 2) * Math.sin(dLng / 2),
+        c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return ((R * c *1000).toFixed());
 }
 
 const cepInput = document.querySelector('.cep')
 cepInput.addEventListener('input', ()=>{
     if(cepInput.value.length == 8){
-        //fetch('https://viacep.com.br/ws/'+cepInput.value+'/json')
-        //.then(res=>res.json())
-        //.then(json=>{
-        //    console.log(json.endereco)
-        //})
-        //.catch(err=>{
-        //    console.log(err)
-        //})
+        const selectTechnicians = document.querySelector("#technicianSelect")
+        while (selectTechnicians.options.length) {
+            selectTechnicians.remove(0);
+        }
+        fetch('https://ninjaphoneapi.herokuapp.com/retornaLatLong/'+cepInput.value)
+        .then(res=>res.json())
+        .then(data=>{
+            if(getDistanceInKm({lat: data.json.latitude, lng: data.json.longitude},{lat: -20.5385214, lng: -49.3272639}) <= 18){
+                document.querySelector("#cardStore").classList.remove("cep_off")
+                document.querySelector("#cardStore").classList.add("cep_card")
+            }
+            fetch('https://ninjaphoneapi.herokuapp.com/mostrarTecnicos')
+            .then(res=>res.json())
+            .then(datas=>{
+                selectTechnicians.add(new Option("Selecione","Selecione"));
+                datas.TodosTecnicos.forEach(e => {
+                    if(e.Localidade !== undefined){
+                        if(getDistanceInKm({lat: data.json.latitude, lng: data.json.longitude},{lat: e.Localidade.split(",")[0], lng: e.Localidade.split(",")[1]}) > 18){
+                            document.querySelector("#cardNinja").classList.remove("cep_off")
+                            document.querySelector("#cardNinja").classList.add("cep_card")
+                            selectTechnicians.add(new Option(e.Nome,e._id));
+                        }
+                    }
+                })
+            })
+        })
+        .catch(err=>{
+            console.log(err)
+        })
     }
 })
+
+
+const technicianSelect = document.querySelector("#technicianSelect")
+technicianSelect.addEventListener('change' , ()=>{
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+technicianSelect.options[technicianSelect.selectedIndex].value)
+    .then(res=>res.json())
+    .then(data=>{
+        let json = data.TodosTecnicos
+        hours_array = data.TodosTecnicos.Horas
+        for(i=1;i<=Object.keys(JSON.parse(json.Horas)).length;i++){
+            document.querySelector("#daySelect").add(new Option(i,i));
+        }
+    })
+})
+
+const daySelect = document.querySelector("#daySelect")
+daySelect.addEventListener('change' , ()=>{
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+technicianSelect.options[technicianSelect.selectedIndex].value)
+    .then(res=>res.json())
+    .then(data=>{
+        let json = data.TodosTecnicos
+        JSON.parse(json.Horas)[daySelect.options[daySelect.selectedIndex].value].forEach(e=>{
+            if(e[1] == true){
+                document.querySelector("#hourtechSelect").add(new Option(e[0]));
+            }
+        })
+    })
+})
+
+
 
 const Months = {
     "Janeiro":"01",
@@ -225,3 +299,34 @@ function phoneMask(v) {
 //https://ninjaphone.herokuapp.com/mostrarAgendamentos
 
 
+const firstNameText_ = document.querySelector('#firstText');
+const lastNameText_ = document.querySelector('#lastText');
+const emailNameText_ = document.querySelector('#emailText');
+const telNumberText_ = document.querySelector('#phoneText');
+const addressInputText_ = document.querySelector('#addressText');
+const numberSelectText_ = document.querySelector('#numberText');
+const techSelectText_ = document.querySelector('#technicianSelect');
+const daySelectText_ = document.querySelector('#daySelect');
+const hourSelectText_ = document.querySelector('#hourtechSelect');
+
+document.querySelector('.button_text').addEventListener("click", ()=>{
+    if(firstNameText_.value.length > 0){
+        if(lastNameText_.value.length > 0){
+            if(emailNameText_.value.length > 0){
+                if(telNumberText_.value.length > 0){
+                    if(addressInputText_.value.length > 0){
+                        if(numberSelectText_.value.length > 0){
+                            if(techSelectText_.selectedIndex > 0){
+                                if(daySelectText_.selectedIndex > 0){
+                                    if(hourSelectText_.selectedIndex > 0){
+                                        
+                                    }else{alert("Você deve selecionar um horário")}
+                                }else{alert("Você deve selecionar um dia")}
+                            }else{alert("Você deve selecionar um técnico")}
+                        }else{alert("Você deve preencher o número de sua residência")}
+                    }else{alert("Você deve preencher seu endereço")}
+                }else{alert("Você deve preencher seu telefone")}
+            }else{alert("Você deve preencher seu email")}
+        }else{alert("Você deve preencher seu sobrenome")}
+    }else{alert("Você deve preencher seu nome")}
+})

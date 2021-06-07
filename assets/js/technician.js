@@ -30,8 +30,7 @@ function synchronyzeMonth(){
     for(i=1; i <= new Date(date.getFullYear(), date.getMonth()+1, 0).getDate(); i++){
         days[i] = []
     }
-    console.log(days)
-    fetch("https://ninjaphoneapi.herokuapp.com/AtualizarDiaTecnico/60b91f468790430015d9f941",{
+    fetch("https://ninjaphoneapi.herokuapp.com/AtualizarDiaTecnico/60bc2e0ed079890015bcd632",{
         headers: {
             'Content-Type': 'application/json'
         },
@@ -50,18 +49,19 @@ function reqDiary(){
     const days = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sabádo"];
     const month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     const date = new Date()
-    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60b91f468790430015d9f941")
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60bc2e0ed079890015bcd632")
     .then(res=>res.json())
     .then(data=>{
         let json = data.TodosTecnicos
-        if(json.Data !== (month[date.getMonth()]+date.getFullYear())){
+        //console.log(month[date.getMonth()]+date.getFullYear())
+        if(json.Dia === (month[date.getMonth()]+date.getFullYear()) && json.Dia !== undefined){
             for(let i in JSON.parse(json.Horas) ){
                 //console.log(days[new Date(date.getFullYear(), date.getMonth(), i).getDay()])
                 document.querySelector('#daysTechnician').insertAdjacentHTML('afterbegin',`
                 <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
+                    <div class="ms-2 me-auto" id="hourCard">
                         <div class="fw-bold">${days[new Date(date.getFullYear(), date.getMonth(), i).getDay()]} <span class="badge bg-dark">${i+"/"+(date.getMonth()+1)}</span></div>
-                        <span class="badge bg-primary">11:00</span>
+                        
                     </div>
                     <div class="btn-group" role="group" aria-label="Basic outlined example">
                         <button onclick="listHours(this)" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#insertHour" data="${i}">Disponibilidade</button>
@@ -69,7 +69,10 @@ function reqDiary(){
                 </li>
                 `)
             };
-            
+            //const j = JSON.parse(json.Horas)
+            //for(let i in j ){
+            //    document.querySelector('#hourCard').insertAdjacentHTML('afterbegin',`<span class="badge bg-primary">${j[]}</span>`)
+            //}
         }else{
             document.querySelector('#daysTechnician').insertAdjacentHTML('afterbegin',`
             <div class="d-grid gap-2">
@@ -89,16 +92,20 @@ function reqDiary(){
 
 function listHours(e){
     document.querySelector("#insertHour").setAttribute("data",e.getAttribute("data"))
-    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60b91f468790430015d9f941")
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60bc2e0ed079890015bcd632")
     .then(res=>res.json())
     .then(data=>{
         let json = JSON.parse(data.TodosTecnicos.Horas)
-        console.log(json[e.getAttribute("data")].length)
         if(json[e.getAttribute("data")].length > 0 ){
             json[e.getAttribute("data")].forEach(element => {
                 document.querySelectorAll("#selectBox").forEach(el=>{
-                    if(el.getAttribute("value") == element)
-                    el.checked = true
+                    if(el.getAttribute("value") == element[0]){
+                        if(element[1] == true){
+                            el.checked = true
+                        }else{
+                            el.disabled = true;
+                        }
+                    }
                 })
             });
         }
@@ -106,18 +113,17 @@ function listHours(e){
 }
 
 function applyHours(){
-    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60b91f468790430015d9f941")
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60bc2e0ed079890015bcd632")
     .then(res=>res.json())
     .then(data=>{
         let hours = []
         let json = JSON.parse(data.TodosTecnicos.Horas)
-        //console.log(json[document.querySelector("#insertHour").getAttribute("data")])
         document.querySelectorAll("#selectBox").forEach(el=>{
             if(el.checked == true)
-            hours.push(el.getAttribute("value"))
+            hours.push([el.getAttribute("value"),true])
         })
         json[document.querySelector("#insertHour").getAttribute("data")] = hours
-        fetch("https://ninjaphoneapi.herokuapp.com/AtualizarHorasTecnico/60b91f468790430015d9f941",{
+        fetch("https://ninjaphoneapi.herokuapp.com/AtualizarHorasTecnico/60bc2e0ed079890015bcd632",{
             headers: {
                 'Content-Type': 'application/json'
             },

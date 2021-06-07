@@ -938,14 +938,43 @@ SELECT PHONE AND MODEL (CARDS)
     flex-direction: row;
 }
 
+.cep_off {
+    border: 1px solid #0E0E0E;
+    margin: 5px;
+    border-radius: 15px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.cep_card {
+    border: 1px solid #0E0E0E;
+    margin: 5px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.cep_card:hover {
+    opacity: 0.9;
+}
+
+.cep_card > img, .cep_off > img{
+    width: 100%;
+    max-width: 300px;
+}
+
+.cep_card > p, .cep_off > p{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+}
+
 /*Register Maintence*/
 
-.register_service {
+.register_service, .register_ninja {
     background: #ebebeb;
     height: 100%;
 }
 
-.register_service > h2{
+.register_service > h2, .register_ninja > h2{
     color: #0E0E0E;
     font-family: 'Raleway', sans-serif;
     font-weight: 800;

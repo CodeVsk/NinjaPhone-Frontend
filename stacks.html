@@ -10,7 +10,7 @@
         <script src="./assets/js/datepicker.js"></script>
     </head>
     <body>
-        <header class="header_phone">
+        <header class="header_phone ">
             <nav>
                 <img src="./assets/images/logo.png" alt="">
                 <button class="toggle_button">
@@ -98,11 +98,11 @@
                 <h3>Insira seu Cep</h3>
                 <input class="cep" type="text" maxlength="8">
                 <div class="cep_card_container">
-                    <div class="service_card">
-                        <img src="assets/images/screen-phone.png" alt="" data="1">
+                    <div id="cardNinja" onclick="selectRepair(this)" class="cep_off" data="1">
+                        <img src="assets/images/screen-phone.png" alt="">
                         <p>Conserto Ninja</p>
                     </div>
-                    <div onclick="selectRepair(this)" class="service_card" data="2">
+                    <div id="cardStore" onclick="selectRepair(this)" class="cep_off" data="2">
                         <img src="assets/images/screen-phone.png" alt="">
                         <p>Entrega em loja</p>
                     </div>
@@ -141,6 +141,57 @@
                         </select>
                     </div>
                     <button class="button_hour">PROSSEGUIR</button>
+                </section>
+            </div>
+        </article>
+        <article class="register_ninja stacks_off">
+            <h2 class="register_title">INSIRA SEUS DADOS</h2>
+            <div class="register_line"></div>
+            <div class="register_container">
+                <section class="register_section">
+                    <div class="input_container">
+                        <label for="firstText" class="fieldInput-label">Primeiro nome*</label>
+                        <input id="firstText" placeholder="João" required>
+                    </div>
+                    <div class="input_container">
+                        <label for="lastText" class="fieldInput-label">Sobrenome*</label>
+                        <input id="lastText" placeholder="Gomes" required>
+                    </div>
+                    <div class="input_container">
+                        <label for="emailText" class="fieldInput-label">Email*</label>
+                        <input id="emailText" placeholder="atendimento@ninjaphone.com" required>
+                    </div>
+                    <div class="input_container">
+                        <label for="phoneText" onkeypress="phoneMask()" class="fieldInput-label">Telefone*</label>
+                        <input id="phoneText" placeholder="(00)00000-0000" required type="text" id="phoneNumber" name="phoneNumber" onkeypress="mask(this, phoneMask);" onblur="mask(this, phoneMask);">
+                    </div>
+                    <div class="input_container">
+                        <label for="addressText" class="fieldInput-label">Endereço*</label>
+                        <input id="addressText" placeholder="Rua josé luis aguiar, Jardim Rosquinha" required type="text">
+                    </div>
+                    <div class="input_container">
+                        <label for="numberText" class="fieldInput-label">Número*</label>
+                        <input id="numberText" placeholder="213" required type="text">
+                    </div>
+                    <div class="input_container">
+                        <label for="technicianSelect" class="fieldInput-label">Selecione o Técnico*</label>
+                        <select name="" id="technicianSelect">
+                            <option value="1">Selecione</option>
+                        </select>
+                    </div>
+                    <div class="input_container">
+                        <label for="daySelect" class="fieldInput-label">Selecione o Dia*</label>
+                        <select name="" id="daySelect">
+                            <option value="1">Selecione</option>
+                        </select>
+                    </div>
+                    <div class="input_container">
+                        <label for="hourSelect" class="fieldInput-label">Selecione a Hora*</label>
+                        <select name="" id="hourtechSelect">
+                            <option value="1">Selecione</option>
+                        </select>
+                    </div>
+                    <button class="button_text">PROSSEGUIR</button>
                 </section>
             </div>
         </article>
