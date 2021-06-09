@@ -45,6 +45,11 @@ article {
     background-position-x: right;
 }
 
+.header_service{
+    background:url("/assets/images/bg-service.png");
+    background-repeat: no-repeat;
+    background-position-x: right;
+}
 /*
 SCROLLBAR
 */
@@ -1196,4 +1201,101 @@ body.loading .loading-modal {
     border-radius: 0;
     color: #E2E2E2;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+/* LOGIN FORM */
+
+.login_container {
+    background: #fff;
+    height: 100%;
+}
+
+.login_container > h2{
+    color: #223337;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    margin: 2rem;
+}
+
+
+.login_container > .section_line{
+    height: 2px;
+    border-left: 100px solid #0E0E0E;
+    margin-bottom: 2rem;
+}
+
+.login_process {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.login_process > ul {
+    display: flex;
+    
+    padding-left: 0 !important;
+}
+
+.card-on {
+    border-color: #4b7bec !important;
+    color: #4b7bec !important;
+}
+
+.login_process > ul > li {
+    list-style: none;
+    border: 1px solid #7e8688;
+    padding: 10px 30px;
+    border-radius: 0 2px 2px 0;
+    color:#7e8688;
+
+}
+
+.login_process > ul > li > p {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+    cursor: pointer;
+    margin-bottom: 0 !important;
+}
+
+.tab-process {
+    width: 100%;
+    display: none;
+}
+
+.tab-on {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-process > .card-process {
+    width: 250px;
+    height: 385px;
+    border: 1px solid #7e8688;
+    margin: 1rem;
+}
+
+.tab-process > .card-process > .card-process-item {
+    padding: 20px;
+}
+
+.tab-process > .card-process > .card-process-item > img {
+    width: 200px;
+}
+
+.tab-process > .card-process > .card-process-item > h3 {
+    font-family: 'Raleway', sans-serif;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tab-process > .card-process > .card-process-item > p {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
 }

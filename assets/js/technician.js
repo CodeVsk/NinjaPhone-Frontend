@@ -36,48 +36,56 @@ function synchronyzeMonth(){
 //AtualizarDiaTecnico
 
 function reqDiary(){
-    const days = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sabádo"];
-    const month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-    const date = new Date()
-    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60bc2e0ed079890015bcd632")
-    .then(res=>res.json())
-    .then(data=>{
-        let json = data.TodosTecnicos
-        if(json.Dia === (month[date.getMonth()]+date.getFullYear()) && json.Dia !== undefined){
-            for(let i=Object.keys(JSON.parse(json.Horas)).length; i > 0; i--){
-                if(i >= date.getDate()){
-                    document.querySelector('#daysTechnician').insertAdjacentHTML('afterbegin',`
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto" id="hourCard">
-                            <div class="fw-bold">${days[new Date(date.getFullYear(), date.getMonth(), i).getDay()]} <span class="badge bg-dark">${i+"/"+(date.getMonth()+1)}</span></div>
-                            
-                        </div>
-                        <div class="btn-group" role="group" aria-label="Basic outlined example">
-                            <button onclick="listHours(this)" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#insertHour" data="${i}">Disponibilidade</button>
-                        </div>
-                    </li>
-                    `)
-                    //const j = JSON.parse(json.Horas[i])
-                    //for(let i in j ){
-                    //    document.querySelector('#hourCard').insertAdjacentHTML('afterbegin',`<span class="badge bg-primary">${j[1]}</span>`)
-                    //}
-                }
-            };
+    if(localStorage.getItem("token")){
+        const days = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sabádo"];
+        const month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+        const date = new Date()
+        fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60bc2e0ed079890015bcd632")
+        .then(res=>res.json())
+        .then(data=>{
+            while (document.querySelector(".select_day").options.length) {
+                document.querySelector(".select_day").remove(0);
+            }
+            let json = data.TodosTecnicos
+            if(json.Dia === (month[date.getMonth()]+date.getFullYear()) && json.Dia !== undefined){
+                for(let i=Object.keys(JSON.parse(json.Horas)).length; i > 0; i--){
+                    document.querySelector(".select_day").add(new Option(i+"/"+(date.getMonth()+1),i));
+                    if(i >= date.getDate()){
+                        document.querySelector('#daysTechnician').insertAdjacentHTML('afterbegin',`
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto" id="hourCard">
+                                <div class="fw-bold">${days[new Date(date.getFullYear(), date.getMonth(), i).getDay()]} <span class="badge bg-dark">${i+"/"+(date.getMonth()+1)}</span></div>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                <button onclick="listHours(this)" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#insertHour" data="${i}">Disponibilidade</button>
+                            </div>
+                        </li>
+                        `)
+                        //const j = JSON.parse(json.Horas)[i]
+                        //for(let i in j ){
+                        //    if(j[i].length > 0)
+                        //        document.querySelector('#hourCard').insertAdjacentHTML('beforeend',`<span class="badge bg-primary">${j[i][0]}</span>`)
+                        //}
+                    }
+                };
+                
+            }else{
+                document.querySelector('#daysTechnician').insertAdjacentHTML('afterbegin',`
+                <div class="d-grid gap-2">
+                    <h3>
+                        <small class="text-muted">
+                            Sua agenda não está sincronizada com este mês
+                        </small>
+                    </h3>
+                    <button onclick="synchronyzeMonth()" class="btn btn-primary" type="button">Sincronizar Calendário</button>
+                </div>
+                `)
+            }
             
-        }else{
-            document.querySelector('#daysTechnician').insertAdjacentHTML('afterbegin',`
-            <div class="d-grid gap-2">
-                <h3>
-                    <small class="text-muted">
-                        Sua agenda não está sincronizada com este mês
-                    </small>
-                </h3>
-                <button onclick="synchronyzeMonth()" class="btn btn-primary" type="button">Sincronizar Calendário</button>
-            </div>
-            `)
-        }
-        
-    })
+        })
+    }else{
+        window.location.href = "./login.html"
+    }
 }
 
 
@@ -143,4 +151,47 @@ function clearHours(){
     })
     document.querySelector('#daysTechnician').innerHTML = ''
     reqDiary()
+}
+
+
+const schedulingSelect = document.querySelector(".select_day")
+schedulingSelect.addEventListener("change",()=>{
+    const days = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sabádo"]; 
+    document.querySelector('#daysTechnician').innerHTML = ""
+    const date = new Date()
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60bc2e0ed079890015bcd632")
+    .then(res=>res.json())
+    .then(data=>{
+        JSON.parse(data.TodosTecnicos.Horas)[schedulingSelect.options[schedulingSelect.selectedIndex].value].forEach(e=>{
+            if(e[1] !== true){
+                fetch("https://ninjaphoneapi.herokuapp.com/mostrarAgendamentos/"+e[1])
+                .then(res=>res.json())
+                .then(data=>{
+                    document.querySelector('#schedulesList').insertAdjacentHTML('afterbegin',`
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto" id="hourCard">
+                            <div class="fw-bold">${days[new Date(date.getFullYear(), date.getMonth(), data.ParamsSelecionados.DiaAgendamento.split("-")[0]).getDay()]} <span class="badge bg-dark">${data.ParamsSelecionados.DiaAgendamento.split("-")[0]+"/"+(date.getMonth()+1)}</span></div>
+                            <span class="badge bg-primary">${data.ParamsSelecionados.HorarioAgendamento}</span>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <button onclick="returnInformation(this)" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#informationSchedule" data="${data.ParamsSelecionados._id}">Visualizar</button>
+                        </div>
+                    </li>
+                    `)
+                })
+            }
+        })
+    })
+})
+
+function returnInformation(e){
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarAgendamentos/"+e.getAttribute("data"))
+    .then(res=>res.json())
+    .then(data=>{
+        document.querySelector("#txtName").innerHTML = data.ParamsSelecionados.PrimeiroNomeCliente+" "+data.ParamsSelecionados.SegundoNomeCliente
+        document.querySelector("#txtAddress").innerHTML = data.ParamsSelecionados.Endereco
+        document.querySelector("#txtCep").innerHTML = data.ParamsSelecionados.Cep
+        document.querySelector("#txtTel").innerHTML = data.ParamsSelecionados.Telefone
+        document.querySelector("#txtEmail").innerHTML = data.ParamsSelecionados.Email
+    })
 }

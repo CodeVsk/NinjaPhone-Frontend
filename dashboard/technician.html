@@ -35,8 +35,6 @@
                     <h1 class="mt-4">Agendamentos</h1>
                     <select class="select_day">
                         <option value="0">Selecione</option>
-                        <option value="1">Hoje</option>
-                        <option value="2">Demais dias</option>
                     </select>
                     <ol id="schedulesList" class="list-group list-group-numbered">
                     </ol>
@@ -278,6 +276,37 @@
                             <button onclick="clearHours()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                             <!--<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aplicar para todos</button>-->
                             <button onclick="applyHours()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Aplicar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal fade" id="informationSchedule" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data="">
+            <form class="row g-3">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Informações Agendamento</h5>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Nome</h5>
+                            <p id="txtName"></p>
+                            <hr>
+                            <h5>Endereço</h5>
+                            <p id="txtAddress"></p>
+                            <hr>
+                            <h5>Cep</h5>
+                            <p id="txtCep"></p>
+                            <hr>
+                            <h5>Telefone</h5>
+                            <p id="txtTel"></p>
+                            <hr>
+                            <h5>Email</h5>
+                            <p id="txtEmail"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button onclick="applyHours()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Certo</button>
                         </div>
                     </div>
                 </div>

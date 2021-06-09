@@ -10,7 +10,7 @@
         <link href="../assets/css/dashboard.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
-    <body>
+    <body onload="verifyLogin()">
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper">
@@ -28,7 +28,6 @@
                     <div class="container-fluid">
                         <button class="btn btn-primary" id="sidebarToggle"><i class="fas fa-bars"></i></button>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                        
                     </div>
                 </nav>
                 <!-- Page content-->

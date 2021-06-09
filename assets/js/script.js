@@ -333,36 +333,41 @@ document.querySelector('.button_text').addEventListener("click", ()=>{
                                                 "PrimeiroNomeCliente":firstNameText_.value,
                                                 "SegundoNomeCliente":lastNameText_.value,
                                                 "Email":emailNameText_.value,
-                                                "Celular":telNumberText_.value,
+                                                "Telefone":telNumberText_.value,
                                                 "ServiçoAFazer":repair[localStorage.getItem("servicePhone")],
                                                 "ModeloAparelho":selectElement.children[selectElement.selectedIndex].textContent,
                                                 "MarcaAparelho":phoneBrand.children[phoneBrand.selectedIndex].textContent,
                                                 "TipoAtendimento": "Ninja",
-                                                "IdTecnico": technicianSelect.options[technicianSelect.selectedIndex].value
+                                                "IdTecnico": technicianSelect.options[technicianSelect.selectedIndex].value,
+                                                "Endereco":addressInputText_.value+","+numberSelectText_.value,
+                                                "Cep":cepInput.value
                                             })
                                         })
-                                        fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+technicianSelect.options[technicianSelect.selectedIndex].value)
                                         .then(res=>res.json())
-                                        .then(data=>{
-                                            let json = JSON.parse(data.TodosTecnicos.Horas)
-                                            json[30].forEach(e => {if(e[0] == hourSelectText_.children[hourSelectText_.selectedIndex].textContent)e[1]=false})
-                                            fetch("https://ninjaphoneapi.herokuapp.com/AtualizarHorasTecnico/"+technicianSelect.options[technicianSelect.selectedIndex].value,{
-                                                headers: {
-                                                    'Content-Type': 'application/json'
-                                                },
-                                                method: "PUT",
-                                                body: JSON.stringify({
-                                                    "Horas":JSON.stringify(json)
+                                        .then(id=>{
+                                            fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+technicianSelect.options[technicianSelect.selectedIndex].value)
+                                            .then(res=>res.json())
+                                            .then(data=>{
+                                                let json = JSON.parse(data.TodosTecnicos.Horas)
+                                                json[30].forEach(e => {if(e[0] == hourSelectText_.children[hourSelectText_.selectedIndex].textContent)e[1]=id.cadastroAgendamento._id})
+                                                fetch("https://ninjaphoneapi.herokuapp.com/AtualizarHorasTecnico/"+technicianSelect.options[technicianSelect.selectedIndex].value,{
+                                                    headers: {
+                                                        'Content-Type': 'application/json'
+                                                    },
+                                                    method: "PUT",
+                                                    body: JSON.stringify({
+                                                        "Horas":JSON.stringify(json)
+                                                    })
                                                 })
-                                            })
-                                            .then(result=>{
-                                                if(result.status === 200){
-                                                    const cardSelect = document.getElementsByClassName("card_success_container");
-                                                    cardSelect[0].className =  cardSelect[0].className.replace(" stacks_off", "");
-                                                    document.getElementsByClassName("register_ninja")[0].classList.add("stacks_off")
-                                                }else{
-                                                    window.location.href = "index.html"
-                                                }
+                                                .then(result=>{
+                                                    if(result.status === 200){
+                                                        const cardSelect = document.getElementsByClassName("card_success_container");
+                                                        cardSelect[0].className =  cardSelect[0].className.replace(" stacks_off", "");
+                                                        document.getElementsByClassName("register_ninja")[0].classList.add("stacks_off")
+                                                    }else{
+                                                        window.location.href = "index.html"
+                                                    }
+                                                })
                                             })
                                         })
                                     }else{alert("Você deve selecionar um horário")}
@@ -374,6 +379,56 @@ document.querySelector('.button_text').addEventListener("click", ()=>{
             }else{alert("Você deve preencher seu email")}
         }else{alert("Você deve preencher seu sobrenome")}
     }else{alert("Você deve preencher seu nome")}
+})
+
+const emailTxt = document.querySelector("#email");
+const passTxt = document.querySelector("#password");
+document.querySelector("#technicianForm").addEventListener("submit",(e)=>{
+    e.preventDefault()
+    if(ValidateEmail(emailTxt)){
+        if(passTxt.value.length > 0){
+            fetch("https://ninjaphoneapi.herokuapp.com/auth/AutenticacaoTecnicos",{
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    "Email": emailTxt.value,
+                    "Senha":passTxt.value
+                })
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                localStorage.setItem("token",data.token)
+                window.location.href = "./technician.html"
+            })
+        }
+    }
+})
+
+const emailAdminTxt = document.querySelector("#emailadmin");
+const passAdminTxt = document.querySelector("#passwordadmin");
+document.querySelector("#adminForm").addEventListener("submit",(e)=>{
+    e.preventDefault()
+    if(ValidateEmail(emailTxt)){
+        if(passTxt.value.length > 0){
+            fetch("https://ninjaphoneapi.herokuapp.com/auth/loginAdmin",{
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    "Email": emailAdminTxt.value,
+                    "Senha":passAdminTxt.value
+                })
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                localStorage.setItem("tokenadm",data.token)
+                window.location.href = "./admin.html"
+            })
+        }
+    }
 })
 
 function ValidateEmail(inputText){

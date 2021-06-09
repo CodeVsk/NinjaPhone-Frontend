@@ -302,3 +302,7 @@ hourOption.addEventListener("change",()=>{
         });
     })
 })*/
+
+function verifyLogin(){
+    localStorage.getItem("tokenadmin") ? console.log("logged") : window.location.href = "./login.html"
+}
