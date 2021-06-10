@@ -237,7 +237,7 @@ ARTICLE (CARDS)
     
 }
 
-.card_mobile > button {
+.card_mobile > a {
     background: var(--background-blue);
     padding: 15px;
     border-radius: 50px;
@@ -247,9 +247,12 @@ ARTICLE (CARDS)
     font-size: 1em;
     transition: 0.3s linear;
     cursor: pointer;
+    outline: none;
+    color: #fff;
+    text-decoration: none;
 }
 
-.card_mobile > button:hover{
+.card_mobile > a:hover{
     background: #436dce;
 }
 
