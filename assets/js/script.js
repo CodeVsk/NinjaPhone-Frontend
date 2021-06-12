@@ -52,14 +52,6 @@ list = {
         "IPhone 5c",
         "IPhone SE 2nd Gen"
     ],
-    "Samsung":[
-        "Selecione",
-        "Galaxy s11",
-        "Galaxy s10",
-        "Galaxy s9",
-        "Galaxy s8",
-        "Galaxy s7",
-    ]
 }
 
 const phoneBrand = document.querySelector('#phone_brand')
@@ -77,18 +69,28 @@ const phoneModel = document.querySelector('#phone_model')
 document.querySelector('.button_phone').addEventListener("click", ()=>{
     if(phoneBrand.selectedIndex > 0){
         if(phoneModel.selectedIndex > 0){
-            const serviceProcess = document.getElementsByClassName("service_select");
-            serviceProcess[0].className =  serviceProcess[0].className.replace(" stacks_off", "");
-            document.getElementsByClassName("phone_select")[0].classList.add("stacks_off");
+            const registerSelect = document.getElementsByClassName("cep_select");
+            registerSelect[0].className =  registerSelect[0].className.replace(" stacks_off", "");
+            document.getElementsByClassName("phone_select")[0].classList.add("stacks_off")
         }
     }
 })
 
 function selectService(e){
     localStorage.setItem('servicePhone', e.getAttribute("data"));
-    const registerSelect = document.getElementsByClassName("cep_select");
-    registerSelect[0].className =  registerSelect[0].className.replace(" stacks_off", "");
-    document.getElementsByClassName("service_select")[0].classList.add("stacks_off")
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+technicianSelect.options[technicianSelect.selectedIndex].value)
+    .then(res=>res.json())
+    .then(data=>{
+        let json = data.TodosTecnicos
+        hours_array = data.TodosTecnicos.Horas
+        for(i=1;i<=Object.keys(JSON.parse(json.Horas)).length;i++){
+            document.querySelector("#daySelect").add(new Option(i,i));
+        }
+        const cepSelect = document.getElementsByClassName("register_ninja");
+        cepSelect[0].className =  cepSelect[0].className.replace(" stacks_off", "");
+        document.getElementsByClassName("service_select")[0].classList.add("stacks_off")
+        document.querySelector("#servicePrice").innerHTML = "Valor: "+document.querySelector("#price"+e.getAttribute("data")).textContent
+    })
 }
 
 function selectRepair(e){
@@ -98,9 +100,9 @@ function selectRepair(e){
             cepSelect[0].className =  cepSelect[0].className.replace(" stacks_off", "");
             document.getElementsByClassName("cep_select")[0].classList.add("stacks_off")
         }else{
-            const cepSelect = document.getElementsByClassName("register_ninja");
-            cepSelect[0].className =  cepSelect[0].className.replace(" stacks_off", "");
-            document.getElementsByClassName("cep_select")[0].classList.add("stacks_off")
+            const serviceProcess = document.getElementsByClassName("service_select");
+            serviceProcess[0].className =  serviceProcess[0].className.replace(" stacks_off", "");
+            document.getElementsByClassName("cep_select")[0].classList.add("stacks_off");
         }
     }
 }
@@ -140,7 +142,7 @@ cepInput.addEventListener('input', ()=>{
                 selectTechnicians.add(new Option("Selecione","Selecione"));
                 datas.TodosTecnicos.forEach(e => {
                     if(e.Localidade !== undefined && e.Status == "Aprovado"){
-                        if(getDistanceInKm({lat: data.json.latitude, lng: data.json.longitude},{lat: e.Localidade.split(",")[0], lng: e.Localidade.split(",")[1]}) > 18){
+                        if(getDistanceInKm({lat: data.json.latitude, lng: data.json.longitude},{lat: e.Localidade.split(",")[0], lng: e.Localidade.split(",")[1]}) <= 18){
                             document.querySelector("#cardNinja").classList.remove("cep_off")
                             document.querySelector("#cardNinja").classList.add("cep_card")
                             selectTechnicians.add(new Option(e.Nome,e._id));
@@ -156,28 +158,43 @@ cepInput.addEventListener('input', ()=>{
 })
 
 const technicianSelect = document.querySelector("#technicianSelect")
+const services = ["Problema Desconhecido","Capa Traseira","Carregador com Problema","Caiu na Água","Bateria Viciada","Tela Danificada"]
 technicianSelect.addEventListener('change' , ()=>{
     fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+technicianSelect.options[technicianSelect.selectedIndex].value)
     .then(res=>res.json())
     .then(data=>{
         let json = data.TodosTecnicos
-        hours_array = data.TodosTecnicos.Horas
-        for(i=1;i<=Object.keys(JSON.parse(json.Horas)).length;i++){
-            document.querySelector("#daySelect").add(new Option(i,i));
+        const service_card = document.getElementsByClassName("service_card_select")
+        for(i=1;i<=6;i++){
+            if(JSON.parse(json.Precos)[i][1] === true){
+                document.querySelector("#price"+i).innerHTML = "R$"+JSON.parse(json.Precos)[i][0]
+                service_card[i-1].classList.replace("service_card_off","service_card")
+            }else{
+                service_card[i-1].classList.add("service_card_off")
+                document.querySelector("#price"+i).innerHTML = "Serviço Indisponivel"
+            }
         }
+        
     })
 })
 
 const daySelect = document.querySelector("#daySelect")
 daySelect.addEventListener('change' , ()=>{
+    while (document.querySelector("#hourtechSelect").options.length) {
+        document.querySelector("#hourtechSelect").remove(0);
+    }
     const hour = new Date()
     fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+technicianSelect.options[technicianSelect.selectedIndex].value)
     .then(res=>res.json())
     .then(data=>{
         let json = data.TodosTecnicos
         JSON.parse(json.Horas)[daySelect.options[daySelect.selectedIndex].value].forEach(e=>{
-            if(e[1] == true && Number(e[0].replace(":","")) > Number(hour.getHours()+"00") ){
-                if(Number(e[0].replace(":",""))-Number(hour.getHours()+"00") > 30){
+            if(e[1] == true){
+                if(hour.getDate()===daySelect.options[daySelect.selectedIndex].value){
+                    if(Number(e[0].replace(":","")) > Number(hour.getHours()+"00") && Number(e[0].replace(":",""))-Number(hour.getHours()+"00") > 30){
+                        document.querySelector("#hourtechSelect").add(new Option(e[0]));
+                    }
+                }else{
                     document.querySelector("#hourtechSelect").add(new Option(e[0]));
                 }
             }
@@ -395,64 +412,3 @@ document.querySelector('.button_text').addEventListener("click", ()=>{
         }else{alert("Você deve preencher seu sobrenome")}
     }else{alert("Você deve preencher seu nome")}
 })
-
-const emailTxt = document.querySelector("#email");
-const passTxt = document.querySelector("#password");
-document.querySelector("#technicianForm").addEventListener("submit",(e)=>{
-    e.preventDefault()
-    if(ValidateEmail(emailTxt)){
-        if(passTxt.value.length > 0){
-            fetch("https://ninjaphoneapi.herokuapp.com/auth/AutenticacaoTecnicos",{
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: "POST",
-                body: JSON.stringify({
-                    "Email": emailTxt.value,
-                    "Senha":passTxt.value
-                })
-            })
-            .then(res=>res.json())
-            .then(data=>{
-                localStorage.setItem("token",data.token)
-                window.location.href = "./technician.html"
-            })
-        }
-    }
-})
-
-const emailAdminTxt = document.querySelector("#emailadmin");
-const passAdminTxt = document.querySelector("#passwordadmin");
-document.querySelector("#adminForm").addEventListener("submit",(e)=>{
-    e.preventDefault()
-    if(ValidateEmail(emailTxt)){
-        if(passTxt.value.length > 0){
-            fetch("https://ninjaphoneapi.herokuapp.com/auth/loginAdmin",{
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: "POST",
-                body: JSON.stringify({
-                    "Email": emailAdminTxt.value,
-                    "Senha":passAdminTxt.value
-                })
-            })
-            .then(res=>res.json())
-            .then(data=>{
-                localStorage.setItem("tokenadm",data.token)
-                window.location.href = "./admin.html"
-            })
-        }
-    }
-})
-
-function ValidateEmail(inputText){
-    let mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if(inputText.value.match(mailformat)){
-        return true;
-    }else{
-        alert("O email inserido em inválido!");
-        inputText.focus();
-        return false;
-    }
-}

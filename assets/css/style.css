@@ -11,9 +11,12 @@
     padding: 0;
 }
 
+body,html{
+    height: 100vh;
+}
+
 body{
     width: 100%;
-    height: 100vh;
     font-size: 100%;
     background: var(--background-blue);
 }
@@ -50,6 +53,15 @@ article {
     background-repeat: no-repeat;
     background-position-x: right;
 }
+@media screen and (max-width:515px) {
+    .header-global{
+        background-size: 920px;
+    }
+    .hello_text{
+        text-shadow: 2px 2px 12px black;
+    }
+}
+
 /*
 SCROLLBAR
 */
@@ -105,6 +117,10 @@ nav > img {
     font-weight: 600;
     padding: 10px 20px;
     text-decoration: none;
+}
+
+.nav_item:hover{
+    opacity: 0.9;
 }
 
 .toggle_button {
@@ -657,6 +673,9 @@ footer > p {
 }
 
 @media screen and (max-width: 770px) {
+    .header-global{
+        background: none;
+    }
     .logo {
         width: 80px;
     }
@@ -827,7 +846,7 @@ SELECT PHONE AND MODEL (CARDS)
     flex-wrap: wrap;
 }
 
-.button_phone, .button_hour, .button_success {
+.button_phone, .button_hour, .button_success, .button_text {
     cursor: pointer;
     width: 100%;
     max-width: 200px;
@@ -842,7 +861,7 @@ SELECT PHONE AND MODEL (CARDS)
     transition: 0.5s;
 }
 
-.button_phone:hover, .button_hour:hover, .button_success:hover {
+.button_phone:hover, .button_hour:hover, .button_success:hover, .button_text:hover {
     background: #436dce;
 }
 
@@ -874,6 +893,14 @@ SELECT PHONE AND MODEL (CARDS)
     max-width: 950px;
 }
 
+.service_card_off{
+    border: 1px solid #0E0E0E;
+    margin: 5px;
+    border-radius: 15px;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
 .service_card {
     border: 1px solid #0E0E0E;
     margin: 5px;
@@ -885,12 +912,12 @@ SELECT PHONE AND MODEL (CARDS)
     opacity: 0.9;
 }
 
-.service_card > img {
+.service_card > img, .service_card_off > img {
     width: 100%;
     max-width: 300px;
 }
 
-.service_card > p {
+.service_card > p, .service_card_off > p {
     font-family: 'Raleway', sans-serif;
     font-weight: 800;
 }
@@ -933,7 +960,7 @@ SELECT PHONE AND MODEL (CARDS)
     font-family: 'Raleway', sans-serif;
     font-weight: 800;
     font-size: 1rem;
-    margin: 30px;
+    margin: 30px 0 30px 0;
 }
 
 .cep_section > h3 {
@@ -1000,10 +1027,15 @@ SELECT PHONE AND MODEL (CARDS)
     align-items: center;
     justify-content: center;
     background: #fff;
-    width: 500px;
+    width: 100%;
     max-width: 500px;
     border-radius: 15px;
-    padding: 30px;
+    padding: 20px;
+}
+
+.register_section > h1{
+    font-family: 'Raleway', sans-serif;
+    margin-bottom: 10px;
 }
 
 .input_container {
@@ -1031,7 +1063,11 @@ SELECT PHONE AND MODEL (CARDS)
     margin: 3px 0 10px 0;
 }
 
-
+@media screen and (max-width: 400px) {
+    .register_section{
+        padding: 5px;
+    }
+}
 
 .card_success_container {
     background: #150400;
@@ -1119,6 +1155,18 @@ SELECT PHONE AND MODEL (CARDS)
         margin-right: auto;
         margin-top: 50%;
         margin-bottom: 50%;
+    }
+}
+
+@media screen and (max-width: 525px) {
+    .technician_container{
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 935px) {
+    .service_select, .phone_select, .register_service, .register_ninja{
+        height: auto;
     }
 }
 

@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="./assets/css/style.css">
         <link rel="stylesheet" href="./assets/css/datepicker.css" />
         <script src="./assets/js/datepicker.js"></script>
+        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     </head>
     <body>
         <header class="header_phone">
@@ -23,6 +24,7 @@
                     <li class="nav_item"><a href="/dashboard/login.html">Login</a></li>
                 </ul>
             </nav>
+            
             <div class="hello">
                 <div class="hello_text">
                     <h1>NINJA PHONE</h1>
@@ -60,30 +62,42 @@
         <article class="service_select stacks_off">
             <h2 class="service_title">SELECIONE O SERVIÇO</h2>
             <div class="service_line"></div>
+            <div class="input_container">
+                <label for="technicianSelect" class="fieldInput-label">Selecione o Técnico*</label>
+                <select name="" id="technicianSelect">
+                    <option value="1">Selecione</option>
+                </select>
+            </div>
             <section class="service_section">
-                <div onclick="selectService(this)" class="service_card" data="1">
+                <div onclick="selectService(this)" class="service_card_off service_card_select" data="1">
                     <img src="assets/images/find-phone.png" alt="">
                     <p>Problema Desconhecido</p>
+                    <p id="price1">Selecione um Técnico</p>
                 </div>
-                <div onclick="selectService(this)" class="service_card" data="2">
+                <div onclick="selectService(this)" class="service_card_off service_card_select" data="2">
                     <img src="assets/images/back-phone.png" alt="">
                     <p>Capa Traseira</p>
+                    <p id="price2">Selecione um Técnico</p>
                 </div>
-                <div onclick="selectService(this)" class="service_card" data="3">
+                <div onclick="selectService(this)" class="service_card_off service_card_select" data="3">
                     <img src="assets/images/loader-phone.png" alt="">
                     <p>Carregador com Problema</p>
+                    <p id="price3">Selecione um Técnico</p>
                 </div>
-                <div onclick="selectService(this)" class="service_card" data="4">
+                <div onclick="selectService(this)" class="service_card_off service_card_select" data="4">
                     <img src="assets/images/water-phone.png" alt="">
                     <p>Caiu na Água</p>
+                    <p id="price4">Selecione um Técnico</p>
                 </div>
-                <div onclick="selectService(this)" class="service_card" data="5">
+                <div onclick="selectService(this)" class="service_card_off service_card_select" data="5">
                     <img src="assets/images/battery-phone.png" alt="">
                     <p>Bateria Viciada</p>
+                    <p id="price5">Selecione um Técnico</p>
                 </div>
-                <div onclick="selectService(this)" class="service_card" data="6">
+                <div onclick="selectService(this)" class="service_card_off service_card_select" data="6">
                     <img src="assets/images/screen-phone.png" alt="">
                     <p>Tela Danificada</p>
+                    <p id="price6">Selecione um Técnico</p>
                 </div>
             </section>
         </article>
@@ -108,7 +122,7 @@
         <article class="register_service stacks_off">
             <h2 class="register_title">INSIRA SEUS DADOS</h2>
             <div class="register_line"></div>
-            <div class="register_container">
+            <!--<div class="register_container">-->
                 <section class="register_section">
                     <div class="input_container">
                         <label for="firstName" class="fieldInput-label">Primeiro nome*</label>
@@ -138,13 +152,14 @@
                     </div>
                     <button class="button_hour">PROSSEGUIR</button>
                 </section>
-            </div>
+            <!--</div>-->
         </article>
         <article class="register_ninja stacks_off">
             <h2 class="register_title">INSIRA SEUS DADOS</h2>
             <div class="register_line"></div>
             <div class="register_container">
                 <section class="register_section">
+                    <h1 id="servicePrice"></h1>
                     <div class="input_container">
                         <label for="firstText" class="fieldInput-label">Primeiro nome*</label>
                         <input id="firstText" placeholder="João" required>
@@ -168,12 +183,6 @@
                     <div class="input_container">
                         <label for="numberText" class="fieldInput-label">Número*</label>
                         <input id="numberText" placeholder="213" required type="text">
-                    </div>
-                    <div class="input_container">
-                        <label for="technicianSelect" class="fieldInput-label">Selecione o Técnico*</label>
-                        <select name="" id="technicianSelect">
-                            <option value="1">Selecione</option>
-                        </select>
                     </div>
                     <div class="input_container">
                         <label for="daySelect" class="fieldInput-label">Selecione o Dia*</label>

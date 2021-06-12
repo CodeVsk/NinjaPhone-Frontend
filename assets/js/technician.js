@@ -3,6 +3,7 @@ technicianButton.addEventListener("click",()=>{
     const tabTechnician = document.querySelector("#techniciansTab");
     tabTechnician.className =  tabTechnician.className.replace(" container-off", "");
     document.querySelector("#hoursTab").classList.add("container-off")
+    document.querySelector("#pricesTab").classList.add("container-off")
 })
 
 const tabHours = document.querySelector(".button_scheduling");
@@ -10,8 +11,16 @@ tabHours.addEventListener("click",()=>{
     const tabHours = document.querySelector("#hoursTab");
     tabHours.className =  tabHours.className.replace(" container-off", "");
     document.querySelector("#techniciansTab").classList.add("container-off")
+    document.querySelector("#pricesTab").classList.add("container-off")
 })
 
+const tabPrice = document.querySelector(".button_values");
+tabPrice.addEventListener("click",()=>{
+    const tabPrice = document.querySelector("#pricesTab");
+    tabPrice.className =  tabPrice.className.replace(" container-off", "");
+    document.querySelector("#techniciansTab").classList.add("container-off")
+    document.querySelector("#hoursTab").classList.add("container-off")
+})
 
 function synchronyzeMonth(){
     const month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
@@ -20,7 +29,7 @@ function synchronyzeMonth(){
     for(i=1; i <= new Date(date.getFullYear(), date.getMonth()+1, 0).getDate(); i++){
         days[i] = []
     }
-    fetch("https://ninjaphoneapi.herokuapp.com/AtualizarDiaTecnico/60bc2e0ed079890015bcd632",{
+    fetch("https://ninjaphoneapi.herokuapp.com/AtualizarDiaTecnico/"+localStorage.getItem("id"),{
         headers: {
             'Content-Type': 'application/json'
         },
@@ -40,7 +49,7 @@ function reqDiary(){
         const days = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sabádo"];
         const month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
         const date = new Date()
-        fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60bc2e0ed079890015bcd632")
+        fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+localStorage.getItem("id"))
         .then(res=>res.json())
         .then(data=>{
             while (document.querySelector(".select_day").options.length) {
@@ -91,7 +100,7 @@ function reqDiary(){
 
 function listHours(e){
     document.querySelector("#insertHour").setAttribute("data",e.getAttribute("data"))
-    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60bc2e0ed079890015bcd632")
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+localStorage.getItem("id"))
     .then(res=>res.json())
     .then(data=>{
         let json = JSON.parse(data.TodosTecnicos.Horas)
@@ -112,7 +121,7 @@ function listHours(e){
 }
 
 function applyHours(){
-    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60bc2e0ed079890015bcd632")
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+localStorage.getItem("id"))
     .then(res=>res.json())
     .then(data=>{
         let hours = []
@@ -122,7 +131,7 @@ function applyHours(){
             hours.push([el.getAttribute("value"),true])
         })
         json[document.querySelector("#insertHour").getAttribute("data")] = hours
-        fetch("https://ninjaphoneapi.herokuapp.com/AtualizarHorasTecnico/60bc2e0ed079890015bcd632",{
+        fetch("https://ninjaphoneapi.herokuapp.com/AtualizarHorasTecnico/"+localStorage.getItem("id"),{
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -159,7 +168,7 @@ schedulingSelect.addEventListener("change",()=>{
     const days = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sabádo"]; 
     document.querySelector('#daysTechnician').innerHTML = ""
     const date = new Date()
-    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/60bc2e0ed079890015bcd632")
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+localStorage.getItem("id"))
     .then(res=>res.json())
     .then(data=>{
         JSON.parse(data.TodosTecnicos.Horas)[schedulingSelect.options[schedulingSelect.selectedIndex].value].forEach(e=>{
@@ -195,3 +204,64 @@ function returnInformation(e){
         document.querySelector("#txtEmail").innerHTML = data.ParamsSelecionados.Email
     })
 }
+
+const services = ["Problema Desconhecido","Capa Traseira","Carregador com Problema","Caiu na Água","Bateria Viciada","Tela Danificada"]
+let price_json = NaN
+document.querySelector(".button_values").addEventListener("click",()=>{
+    fetch("https://ninjaphoneapi.herokuapp.com/mostrarTecnico/"+localStorage.getItem("id"))
+    .then(res=>res.json())
+    .then(data=>{
+        document.querySelector('#priceTab').innerHTML=""
+        price_json = JSON.parse(data.TodosTecnicos.Precos)
+        Object.keys(price_json).forEach(e=>{
+            const price = price_json[e][0].split(".")
+            document.querySelector('#priceTab').insertAdjacentHTML('beforebegin',`
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-sm-3">
+                    <h6>${services[e-1]}</h6>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <div class="input-group-text">Inteiro</div>
+                        <input id="int${e}" type="text" class="form-control" id="specificSizeInputGroupUsername" placeholder="0" value="${price[0]}">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <div class="input-group-text">Centavos</div>
+                        <input id="cent${e}" type="text" class="form-control" id="specificSizeInputGroupUsername" placeholder="0" value="${price[1]}">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check${e}">
+                        <label class="form-check-label" for="autoSizingCheck2" >
+                            Habilitar
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            `)
+            if(price_json[e][1] === true){document.querySelector("#check"+e).checked = true}
+        })
+    })
+})
+
+document.querySelector("#saveButton").addEventListener("click",()=>{
+    for(i=1;i<=6;i++){
+        const intPrice = document.querySelector("#int"+i)
+        const centPrice = document.querySelector("#cent"+i)
+        const checkPrice = document.querySelector("#check"+i)
+        price_json[i] = [intPrice.value+","+centPrice.value,checkPrice.checked]
+    }
+    fetch("https://ninjaphoneapi.herokuapp.com/AtualizarPrecoTecnico/"+localStorage.getItem("id"),{
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: "PUT",
+        body: JSON.stringify({
+            "Precos":JSON.stringify(price_json)
+        })
+    })
+})

@@ -55,7 +55,9 @@ document.querySelector('.btn_register').addEventListener("click", ()=>{
                                                     "Status":"Pendente",
                                                     "Horas":"",
                                                     "Dia":"",
-                                                    "Localidade":data.json.latitude+","+data.json.longitude
+                                                    "Localidade":data.json.latitude+","+data.json.longitude,
+                                                    "Precos":"{\"1\":[\"0.00\",false],\"2\":[\"0.00\",false],\"3\":[\"0.00\",false],\"4\":[\"0.00\",false],\"5\":[\"0.00\",false],\"6\":[\"0.00\",false]}"
+                                                    //JSON.stringify({1:['0.00',false],2:['0.00',false],3:['0.00',false],4:['0.00',false],5:['0.00',false],6:['0.00',false]})
                                                 })
                                             })
                                             .then(res => {
